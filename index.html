@@ -43,7 +43,8 @@
 <button id="btn">ランダム生成</button>
 
 <script>
-    let masterData = [];
+    let adjectives = [];
+    let nouns = [];
 
     // ▼ CSV 読込（master.csv）
     fetch("master.csv")
@@ -54,10 +55,20 @@
 
             rows.forEach(row => {
                 const [adj, noun] = row.split(",");
-                masterData.push({ adj, noun });
+
+                // 左列（形容詞）
+                if (adj && adj.trim() !== "" && adj.trim().toLowerCase() !== "nan") {
+                    adjectives.push(adj.trim());
+                }
+
+                // 右列（名詞）
+                if (noun && noun.trim() !== "" && noun.trim().toLowerCase() !== "nan") {
+                    nouns.push(noun.trim());
+                }
             });
 
-            console.log("Master loaded:", masterData);
+            console.log("Adjectives:", adjectives);
+            console.log("Nouns:", nouns);
         })
         .catch(err => console.error("CSV 読込エラー:", err));
 
@@ -65,18 +76,19 @@
 
     document.getElementById("btn").addEventListener("click", () => {
 
-        if (masterData.length === 0){
-            alert("master.csv が読み込めていません。");
+        if (adjectives.length === 0 || nouns.length === 0){
+            alert("master.csv が正しく読み込めていません。");
             return;
         }
 
-        // ランダム抽選
-        const pick = masterData[Math.floor(Math.random() * masterData.length)];
+        // ▼ 抽選（行数が違っても両方ランダム）
+        const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
+        const noun = nouns[Math.floor(Math.random() * nouns.length)];
 
-        // フェードイン
+        // ▼ フェードイン
         card.style.opacity = 0;
         setTimeout(() => {
-            card.textContent = `${pick.adj} ${pick.noun}`;
+            card.textContent = `${adj} ${noun}`;
             card.style.opacity = 1;
         }, 150);
     });
