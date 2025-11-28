@@ -7,14 +7,16 @@
     body {
         font-family: "Yu Gothic", sans-serif;
         text-align: center;
-        padding-top: 60px;
+        padding-top: 40px;
         background: #f5f7fa;
+        color: #222;
     }
+
     #card {
         display: inline-block;
         background: #b7e4f9;
         padding: 25px 50px;
-        border-radius: 10px;
+        border-radius: 12px;
         font-size: 32px;
         font-weight: bold;
         opacity: 0;
@@ -22,6 +24,7 @@
         box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         margin-bottom: 30px;
     }
+
     #btn {
         padding: 12px 25px;
         font-size: 18px;
@@ -30,7 +33,42 @@
         background: #2d8fd0;
         color: white;
         border: none;
+        margin-bottom: 60px;
     }
+
+    /* -------------------------
+       雑談ルール部分（下部）
+       ------------------------- */
+    #rules {
+        width: 75%;
+        margin: 0 auto;
+        text-align: left;
+        background: white;
+        border-radius: 12px;
+        padding: 25px 30px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        line-height: 1.8;
+    }
+
+    #rules h3 {
+        margin-top: 0;
+        font-size: 20px;
+        border-bottom: 2px solid #2d8fd0;
+        padding-bottom: 6px;
+        margin-bottom: 15px;
+    }
+
+    @media (max-width: 600px) {
+        #rules {
+            width: 90%;
+            font-size: 14px;
+        }
+        #card {
+            font-size: 26px;
+            padding: 20px 30px;
+        }
+    }
+
 </style>
 </head>
 
@@ -41,6 +79,21 @@
 <div id="card">--</div><br>
 
 <button id="btn">ランダム生成</button>
+
+<!-- ▼ 雑談ルール ▼ -->
+<div id="rules">
+    <h3>・雑談のルール♪</h3>
+
+    <ul>
+        <li>テーマにかこつけて全然関係ない実体験を話すのは大歓迎！脱線も◎！</li>
+        <li>ネガティブ発言OK。ただし、好きな人もいる可能性を忘れず配慮した話し方で。どうしても言いたいときはフォローも入れてね。</li>
+        <li>「人それぞれ」「時と場合による」「グラデーションだよね〜」などは当たり前で話が終わるのでNG！<br>
+            　→ ただし、それを起点に話が広がりそうなら全然OK。</li>
+        <li>反論ではなく質問や別視点の提示で！</li>
+        <li>自然に楽しい雑談は生まれないよ！みんなで努力して楽しくしよう！</li>
+    </ul>
+</div>
+
 
 <script>
     let adjectives = [];
@@ -56,20 +109,12 @@
             rows.forEach(row => {
                 const columns = row.split(",");
                 
-                // 列位置：0=形容詞 / 1=名詞
                 const adj = columns[0]?.trim();
                 const noun = columns[1]?.trim();
 
-                if (adj && adj.toLowerCase() !== "nan") {
-                    adjectives.push(adj);
-                }
-                if (noun && noun.toLowerCase() !== "nan") {
-                    nouns.push(noun);
-                }
+                if (adj && adj.toLowerCase() !== "nan") adjectives.push(adj);
+                if (noun && noun.toLowerCase() !== "nan") nouns.push(noun);
             });
-
-            console.log("Adjectives:", adjectives);
-            console.log("Nouns:", nouns);
         })
         .catch(err => console.error("CSV 読込エラー:", err));
 
@@ -82,11 +127,9 @@
             return;
         }
 
-        // ▼ 必ず両方からランダムに取得
         const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
         const noun = nouns[Math.floor(Math.random() * nouns.length)];
 
-        // ▼ フェードイン
         card.style.opacity = 0;
         setTimeout(() => {
             card.textContent = `${adj} ${noun}`;
