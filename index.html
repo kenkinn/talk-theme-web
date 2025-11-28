@@ -217,18 +217,19 @@ user-select: none;
     <button id="generateBtn">ランダム生成</button>
 <!-- ▼ タイマー機能 -->
 <div id="timerBox" style="
-    margin-top:40px;
-    padding: 20px;
-    width: 60%;
+    margin-top:30px;
+    padding: 15px 20px;
+    width: 280px;
     margin-left: auto;
     margin-right: auto;
     background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
 ">
-    <h3>⏱ タイマー</h3>
+    <h3 style="font-size: 16px; margin-bottom: 10px;">⏱ タイマー</h3>
 
-    <select id="timerSelect" style="padding:6px; font-size:16px;">
+    <select id="timerSelect" style="padding:4px; font-size:14px;">
         <option value="180">3分</option>
         <option value="300">5分</option>
         <option value="420">7分</option>
@@ -236,13 +237,15 @@ user-select: none;
     </select>
 
     <div id="timerDisplay" style="
-        font-size: 32px;
+        font-size: 26px;
         font-weight: bold;
-        margin-top: 15px;
+        margin-top: 10px;
     ">00:00</div>
 
-    <button onclick="startTimer()" class="add-btn" style="margin-right:10px;">▶ スタート</button>
-    <button onclick="stopTimer()" class="delete-btn">⏹ ストップ</button>
+    <div style="margin-top:12px;">
+        <button onclick="startTimer()" class="add-btn" style="margin-right:6px; padding:6px 10px; font-size:14px;">▶ スタート</button>
+        <button onclick="stopTimer()" class="delete-btn" style="padding:6px 10px; font-size:14px;">⛔ ストップ</button>
+    </div>
 </div>
 
     <!-- ▼ 雑談のルール（タブの中に移動） -->
