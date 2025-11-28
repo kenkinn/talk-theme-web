@@ -215,38 +215,7 @@ user-select: none;
 
     <div id="card">--</div><br>
     <button id="generateBtn">ランダム生成</button>
-<!-- ▼ タイマー機能 -->
-<div id="timerBox" style="
-    margin-top:30px;
-    padding: 15px 20px;
-    width: 280px;
-    margin-left: auto;
-    margin-right: auto;
-    background: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    text-align: center;
-">
-    <h3 style="font-size: 16px; margin-bottom: 10px;">⏱ タイマー</h3>
 
-    <select id="timerSelect" style="padding:4px; font-size:14px;">
-        <option value="180">3分</option>
-        <option value="300">5分</option>
-        <option value="420">7分</option>
-        <option value="600">10分</option>
-    </select>
-
-    <div id="timerDisplay" style="
-        font-size: 26px;
-        font-weight: bold;
-        margin-top: 10px;
-    ">00:00</div>
-
-    <div style="margin-top:12px;">
-        <button onclick="startTimer()" class="add-btn" style="margin-right:6px; padding:6px 10px; font-size:14px;">▶ スタート</button>
-        <button onclick="stopTimer()" class="delete-btn" style="padding:6px 10px; font-size:14px;">⛔ ストップ</button>
-    </div>
-</div>
 
     <!-- ▼ 雑談のルール（タブの中に移動） -->
     <div id="rules" style="
@@ -542,6 +511,61 @@ function updateTimerDisplay() {
 }
 
 </script>
+<!-- ▼ 固定表示の右上タイマー -->
+<div id="timerFloating" style="
+    position: fixed;
+    top: 85px;
+    right: 25px;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 12px 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    z-index: 999;
+    width: 160px;
+    text-align: center;
+">
+    <div style="font-size:14px; font-weight:bold;">⏱ タイマー</div>
+
+    <select id="timerSelect" style="
+        padding:4px;
+        font-size:12px;
+        margin-top:6px;
+        width: 100%;
+    ">
+        <option value="180">3分</option>
+        <option value="300">5分</option>
+        <option value="420">7分</option>
+        <option value="600">10分</option>
+    </select>
+
+    <div id="timerDisplay" style="
+        font-size: 22px;
+        font-weight: bold;
+        margin-top: 8px;
+    ">00:00</div>
+
+    <div style="margin-top:10px;">
+        <button onclick="startTimer()" style="
+            background:#22c55e;
+            color:white;
+            border:none;
+            border-radius:4px;
+            padding:4px 8px;
+            font-size:12px;
+            cursor:pointer;
+        ">▶</button>
+
+        <button onclick="stopTimer()" style="
+            background:#ef4444;
+            color:white;
+            border:none;
+            border-radius:4px;
+            padding:4px 8px;
+            font-size:12px;
+            cursor:pointer;
+        ">⏹</button>
+    </div>
+</div>
 
 </body>
 </html>
