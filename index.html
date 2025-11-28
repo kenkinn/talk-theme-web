@@ -54,16 +54,17 @@
             const [header, ...rows] = lines;
 
             rows.forEach(row => {
-                const [adj, noun] = row.split(",");
+                const columns = row.split(",");
+                
+                // 列位置：0=形容詞 / 1=名詞
+                const adj = columns[0]?.trim();
+                const noun = columns[1]?.trim();
 
-                // 左列（形容詞）
-                if (adj && adj.trim() !== "" && adj.trim().toLowerCase() !== "nan") {
-                    adjectives.push(adj.trim());
+                if (adj && adj.toLowerCase() !== "nan") {
+                    adjectives.push(adj);
                 }
-
-                // 右列（名詞）
-                if (noun && noun.trim() !== "" && noun.trim().toLowerCase() !== "nan") {
-                    nouns.push(noun.trim());
+                if (noun && noun.toLowerCase() !== "nan") {
+                    nouns.push(noun);
                 }
             });
 
@@ -77,11 +78,11 @@
     document.getElementById("btn").addEventListener("click", () => {
 
         if (adjectives.length === 0 || nouns.length === 0){
-            alert("master.csv が正しく読み込めていません。");
+            alert("master.csv の形容詞または名詞が空です。");
             return;
         }
 
-        // ▼ 抽選（行数が違っても両方ランダム）
+        // ▼ 必ず両方からランダムに取得
         const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
         const noun = nouns[Math.floor(Math.random() * nouns.length)];
 
