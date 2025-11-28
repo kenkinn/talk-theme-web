@@ -215,6 +215,35 @@ user-select: none;
 
     <div id="card">--</div><br>
     <button id="generateBtn">ランダム生成</button>
+<!-- ▼ タイマー機能 -->
+<div id="timerBox" style="
+    margin-top:40px;
+    padding: 20px;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+">
+    <h3>⏱ 話す時間タイマー</h3>
+
+    <select id="timerSelect" style="padding:6px; font-size:16px;">
+        <option value="180">3分</option>
+        <option value="300">5分</option>
+        <option value="420">7分</option>
+        <option value="600">10分</option>
+    </select>
+
+    <div id="timerDisplay" style="
+        font-size: 32px;
+        font-weight: bold;
+        margin-top: 15px;
+    ">00:00</div>
+
+    <button onclick="startTimer()" class="add-btn" style="margin-right:10px;">▶ スタート</button>
+    <button onclick="stopTimer()" class="delete-btn">⏹ ストップ</button>
+</div>
 
     <!-- ▼ 雑談のルール（タブの中に移動） -->
     <div id="rules" style="
@@ -468,6 +497,46 @@ document.getElementById("themeToggle").addEventListener("click", () => {
 
 // 初期テーマ適用
 applyTheme(localStorage.getItem("theme") || "light");
+/* ===========================================================
+   タイマー機能
+=========================================================== */
+
+let timerInterval = null;
+let remainingSeconds = 0;
+
+function startTimer() {
+    stopTimer(); // 二重起動防止
+
+    const selected = document.getElementById("timerSelect").value;
+    remainingSeconds = Number(selected);
+
+    updateTimerDisplay();
+
+    timerInterval = setInterval(() => {
+        remainingSeconds--;
+        updateTimerDisplay();
+
+        if (remainingSeconds <= 0) {
+            stopTimer();
+            alert("⏱ タイムアップ！次の話題にいきましょう！");
+            // ★タイムアップ時に自動生成させたいなら以下をONにする
+            // document.getElementById("generateBtn").click();
+        }
+    }, 1000);
+}
+
+function stopTimer() {
+    if (timerInterval) {
+        clearInterval(timerInterval);
+    }
+    timerInterval = null;
+}
+
+function updateTimerDisplay() {
+    const min = String(Math.floor(remainingSeconds / 60)).padStart(2, '0');
+    const sec = String(remainingSeconds % 60).padStart(2, '0');
+    document.getElementById("timerDisplay").textContent = `${min}:${sec}`;
+}
 
 </script>
 
