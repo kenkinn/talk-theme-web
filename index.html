@@ -193,6 +193,13 @@
         <input id="newNoun" placeholder="名詞を追加（例：技術）">
         <button class="add-btn" onclick="addNoun()">追加</button>
     </div>
+
+    <div style="margin-top: 40px;">
+        <button class="add-btn" style="background:#f97316;" onclick="resetMaster()">
+            🔄 初期化（Master.csv から再読み込み）
+        </button>
+    </div>
+    
 </div>
 
 <script>
@@ -329,6 +336,43 @@
 
     /* 初期ロード */
     loadMaster();
+
+    function resetMaster() {
+    if (!confirm("ローカル編集内容をすべて初期状態に戻します。よろしいですか？")) {
+        return;
+    }
+
+    // localStorage をクリア
+    localStorage.removeItem("adjectives");
+    localStorage.removeItem("nouns");
+
+    // 配列を初期化
+    adjectives = [];
+    nouns = [];
+
+    // master.csv を再読み込み
+    fetch("master.csv")
+        .then(r => r.text())
+        .then(text => {
+            const lines = text.trim().split("\n");
+            const [header, ...rows] = lines;
+
+            rows.forEach(row => {
+                const [adj, noun] = row.split(",");
+                if (adj && adj.trim() !== "" && adj.toLowerCase() !== "nan") adjectives.push(adj.trim());
+                if (noun && noun.trim() !== "" && noun.toLowerCase() !== "nan") nouns.push(noun.trim());
+            });
+
+            // localStorage に保存
+            saveLocal();
+
+            // 編集UI再描画
+            renderLists();
+
+            alert("初期化が完了しました！");
+        });
+}
+
 </script>
 
 </body>
