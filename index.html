@@ -123,10 +123,84 @@
         border-radius: 6px;
         cursor: pointer;
     }
+    /* ===========================================================
+   ダークモードテーマ
+   body.dark-mode が付与されたときにすべて切り替わる
+=========================================================== */
+body.dark-mode {
+    background: #1e1e1e;
+    color: #e5e5e5;
+}
+
+/* タブ */
+body.dark-mode .tab {
+    background: #3a3a3a;
+    color: #e5e5e5;
+    border-color: #555;
+}
+body.dark-mode .tab.active {
+    background: #1e1e1e;
+    border-bottom: none;
+}
+
+/* カード */
+body.dark-mode #card {
+    background: #4a6fa5;
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(255,255,255,0.1);
+}
+
+/* 生成ボタン */
+body.dark-mode #generateBtn {
+    background: #2563eb;
+}
+
+/* 編集画面（ボックス） */
+body.dark-mode .list-box {
+    background: #2d2d2d;
+    color: #e5e5e5;
+    border: 1px solid #444;
+}
+
+/* 削除ボタン */
+body.dark-mode .delete-btn {
+    background: #dc2626;
+}
+
+/* 追加ボタン */
+body.dark-mode .add-btn {
+    background: #059669;
+}
+
+/* ルールボックス */
+body.dark-mode #rules {
+    background: #2d2d2d !important;
+    color: #e5e5e5;
+    box-shadow: 0 2px 4px rgba(255,255,255,0.05);
+}
+
+/* タブ内容の背景 */
+body.dark-mode .tab-content {
+    background: #1e1e1e;
+    border-color: #444;
+}
+
 </style>
 </head>
 
 <body>
+    <!-- ダークモード切替 -->
+<div id="themeToggle" style="
+position: fixed;
+top: 15px;
+right: 20px;
+font-size: 26px;
+cursor: pointer;
+user-select: none;
+">
+🌞
+</div>
+
 
 <!-- ▼ タブメニュー -->
 <div class="tab-container">
@@ -196,7 +270,7 @@
 
     <div style="margin-top: 40px;">
         <button class="add-btn" style="background:#f97316;" onclick="resetMaster()">
-            🔄 初期化（Master.csv から再読み込み）
+            🔄 初期化（デフォルトリストに更新）
         </button>
     </div>
     
@@ -338,7 +412,7 @@
     loadMaster();
 
     function resetMaster() {
-    if (!confirm("ローカル編集内容をすべて初期状態に戻します。よろしいですか？")) {
+    if (!confirm("編集内容をすべて初期状態に戻します。よろしいですか？")) {
         return;
     }
 
@@ -372,6 +446,28 @@
             alert("初期化が完了しました！");
         });
 }
+/* ===========================================================
+   ダークモード切り替え
+=========================================================== */
+function applyTheme(theme) {
+    if (theme === "dark") {
+        document.body.classList.add("dark-mode");
+        document.getElementById("themeToggle").textContent = "🌙";
+    } else {
+        document.body.classList.remove("dark-mode");
+        document.getElementById("themeToggle").textContent = "🌞";
+    }
+}
+
+document.getElementById("themeToggle").addEventListener("click", () => {
+    const current = localStorage.getItem("theme") || "light";
+    const next = current === "light" ? "dark" : "light";
+    localStorage.setItem("theme", next);
+    applyTheme(next);
+});
+
+// 初期テーマ適用
+applyTheme(localStorage.getItem("theme") || "light");
 
 </script>
 
